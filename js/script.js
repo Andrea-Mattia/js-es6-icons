@@ -136,14 +136,19 @@ const container = document.querySelector('.icons');
 const coloredIcons = colorIcons(icons, colors);
 printIcons(coloredIcons, container);
 
+// 3. Filter icons
+// A. Genero le options per select
+const select = document.querySelector('#type');
+const types = getType(coloredIcons);
+genOption(types, select);
 
+// B. Filtro gli oggetti per tipo
+select.addEventListener('change', () => {
+    const selected = select.value;
 
-
-
-
-
-
-
+    const filteredIcons = filterIcons(coloredIcons, selected);
+    printIcons(filteredIcons, container);
+});
 
 
 
@@ -213,4 +218,37 @@ function getType(icons) {
     });
     // mi ritorno l'array fuori
     return types;
+}
+
+/**
+ * GEN OPTION FOR FILTERS
+ */
+
+ function genOption(types, select) {
+    let options = '';
+
+    types.forEach( (type) => {
+        options += `<option value="${type}">${type}</option>`
+    });
+
+    // ! non sovrascrivere all, presente di default in html
+    select.innerHTML += options;
+}
+
+
+/**
+ * FILTER ICON SET
+ */
+
+function filterIcons(icons, selected) {
+    // Se la categoria selezionata è all esce subito dalla funzione e ritorna tutta la collezione
+    if (selected === 'all') {
+        return icons;
+    }
+
+    const filtered = icons.filter( (icon) => {
+        return icon.type === selected;
+    });
+
+    return filtered;
 }
