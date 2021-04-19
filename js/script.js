@@ -105,13 +105,36 @@ const icons = [
         type: 'user',
         family: 'fas',
     },
+    {
+        name: 'user-md',
+        prefix: 'fa-',
+        type: 'user',
+        family: 'fas',
+    },
+    {
+        name: 'user-friends',
+        prefix: 'fa-',
+        type: 'user',
+        family: 'fas',
+    },
+];
+
+// Colors
+const colors = [
+    '#001858',
+    '#8bd3dd',
+    '#f582ae',
 ];
 
 // Container delle icone
 const container = document.querySelector('.icons');
 
 // 1. Stampo tutte quante le icone a schermo
-printIcons(icons, container);
+// printIcons(icons, container);
+
+// 2. printare icone colorate
+const coloredIcons = colorIcons(icons, colors);
+printIcons(coloredIcons, container);
 
 
 
@@ -139,15 +162,55 @@ printIcons(icons, container);
     // Genero il markup icone
     let html = '';
     icons.forEach( (icon) => {
-        const {family, prefix, name} = icon;
+        const {family, prefix, name, color} = icon;
         // Aggiungo (senza sovrascrivere) il markup  nell'html
         html += 
         `<div class="icon p-20">
-            <i class="${family} ${prefix}${name}" style="color: #000"></i>
+            <i class="${family} ${prefix}${name}" style="color: ${color}"></i>
             <div class="title">${name}</div>
         </div>`;
     });
 
     // Aggiunta icons al container
     container.innerHTML = html;
+}
+
+/**
+ * return COLOR ICONS COLLECTION BY TYPE
+ */
+
+ function colorIcons(icons, colors) {
+    const types = getType(icons);
+
+    // Assegnare un colore per tipo ad ogni icona
+    const coloredIcons = icons.map( (icon) => {
+
+        const indexType = types.indexOf(icon.type);
+
+        // uso lo spread operator per copiarmi tutte le proprietà dei vari oggetti e aggiungerci il colore
+        return {
+            ...icon,
+            color: colors[indexType],
+        };
+    });
+    
+    return coloredIcons;
+}
+
+
+/**
+ * GET ICONS TYPE (in modo univoco)
+ */
+
+function getType(icons) {
+    // Creo un array vuoto
+    const types = [];
+    icons.forEach( (icon) => {
+        // Se l'array types non include icon.type lo pusho dentro l'array
+        if (! types.includes(icon.type)) {
+            types.push(icon.type);
+        }
+    });
+    // mi ritorno l'array fuori
+    return types;
 }
