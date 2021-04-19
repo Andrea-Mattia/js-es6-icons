@@ -6,7 +6,8 @@
  * Milestone 3
  * Creiamo una select con i tipi di icone e usiamola per filtrare le icone
  */
-console.log('Works');
+
+// Data
 const icons = [
     {
         name: 'cat',
@@ -105,3 +106,48 @@ const icons = [
         family: 'fas',
     },
 ];
+
+// Container delle icone
+const container = document.querySelector('.icons');
+
+// 1. Stampo tutte quante le icone a schermo
+printIcons(icons, container);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***************************************
+    FUNCTIONS
+***************************************/
+
+/**
+ * Print icons on screen
+ */
+
+ function printIcons(icons, container) {
+    // Genero il markup icone
+    let html = '';
+    icons.forEach( (icon) => {
+        const {family, prefix, name} = icon;
+        // Aggiungo (senza sovrascrivere) il markup  nell'html
+        html += 
+        `<div class="icon p-20">
+            <i class="${family} ${prefix}${name}" style="color: #000"></i>
+            <div class="title">${name}</div>
+        </div>`;
+    });
+
+    // Aggiunta icons al container
+    container.innerHTML = html;
+}
